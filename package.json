@@ -1,0 +1,45 @@
+{
+    "name": "@17secrets/oxi",
+    "description": "A próxima geração do gerenciador de usernames. Totalmente reescrito, mais rápido, mais profissional e pronto para produção.",
+    "version": "0.0.2",
+    "main": "dist/index.js",
+    "types": "dist/index.d.ts",
+    "type": "module",
+    "exports": {
+        ".": {
+            "import": "./dist/index.js",
+            "types": "./dist/index.d.ts"
+        }
+    },
+    "publishConfig": {
+        "access": "public"
+    },
+    "files": [
+        "dist"
+    ],
+    "scripts": {
+        "build": "tsc",
+        "test": "npm run build && npm run test:dev",
+        "test:dev": "tsx --watch src/index.ts"
+    },
+    "keywords": [
+        "usernames",
+        "proxy",
+        "typescript",
+        "v2"
+    ],
+    "author": "17secrets",
+    "license": "MIT",
+    "repository": {
+        "type": "git",
+        "url": "https://github.com/pqpcara/usernames-v2.git"
+    },
+    "bugs": {
+        "url": "https://github.com/pqpcara/usernames-v2/issues"
+    },
+    "homepage": "https://github.com/pqpcara/usernames-v2#readme",
+    "devDependencies": {
+        "tsx": "^4.21.0",
+        "typescript": "^5.9.3"
+    }
+}

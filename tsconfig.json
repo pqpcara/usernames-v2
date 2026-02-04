@@ -1,0 +1,22 @@
+{
+    "include": ["src"],
+    "exclude": ["node_modules", "dist"],
+
+    "compilerOptions": {
+        "target": "ESNext",
+        "module": "NodeNext",
+        "moduleResolution": "NodeNext",
+
+        "rootDir": "src",
+        "outDir": "dist",
+
+        "inlineSourceMap": true,
+        "noEmitHelpers": true,
+        "strict": true,
+        "skipDefaultLibCheck": true,
+        "esModuleInterop": true,
+        "declaration": true,
+        "declarationMap": true,
+        "verbatimModuleSyntax": true
+    }
+}
