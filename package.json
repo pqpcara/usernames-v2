@@ -1,7 +1,7 @@
 {
-    "name": "@17secrets/oxi",
-    "description": "A próxima geração do gerenciador de usernames. Totalmente reescrito, mais rápido, mais profissional e pronto para produção.",
-    "version": "0.0.2",
+    "name": "@17secrets/usernames",
+    "description": "Check username availability across all platforms. Simple, fast, and hassle-free.",
+    "version": "0.0.1",
     "main": "dist/index.js",
     "types": "dist/index.d.ts",
     "type": "module",
@@ -41,5 +41,8 @@
     "devDependencies": {
         "tsx": "^4.21.0",
         "typescript": "^5.9.3"
+    },
+    "dependencies": {
+        "undici": "^7.20.0"
     }
 }

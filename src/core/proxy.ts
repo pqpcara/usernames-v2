@@ -1,16 +1,18 @@
-interface IProxyConfig {
+import { ProxyAgent } from "undici";
+
+export interface IProxyConfig {
     host: string;
     port: number;
     username?: string;
     password?: string;
-};
+}
 
 export interface IProxy {
     proxy?: {
         enabled?: boolean;
         proxies?: IProxyConfig[];
     };
-};
+}
 
 class ProxyCollection<T> {
     private items: T[] = [];
@@ -43,10 +45,7 @@ export class ProxyManager {
     private readonly _proxies = new ProxyCollection<IProxyConfig>();
 
     enabled(value?: boolean): boolean | this {
-        if (value === undefined) {
-            return this._enabled;
-        }
-
+        if (value === undefined) return this._enabled;
         this._enabled = value;
         return this;
     }
@@ -54,4 +53,22 @@ export class ProxyManager {
     get proxies(): ProxyCollection<IProxyConfig> {
         return this._proxies;
     }
+
+    random(): IProxyConfig | null {
+        if (!this._enabled || this._proxies.size === 0) return null;
+        const list = this._proxies.list();
+        return list[Math.floor(Math.random() * list.length)];
+    }
+}
+
+export const getProxyAgent = (proxy?: IProxyConfig) => {
+    if (!proxy) return undefined;
+
+    const auth =
+        proxy.username && proxy.password
+            ? `${proxy.username}:${proxy.password}@`
+            : "";
+
+    const uri = `http://${auth}${proxy.host}:${proxy.port}`;
+    return new ProxyAgent(uri);
 }
