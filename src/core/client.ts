@@ -1,3 +1,4 @@
+import { minecraft, type IMinecraft } from "../checkers/minecraft.js";
 import { roblox, type IRoblox } from "../checkers/roblox.js";
 import { ProxyManager } from "./proxy.js";
 
@@ -27,5 +28,10 @@ export class Client {
     public async roblox(username: string): Promise<IRoblox> {
         const proxy = this.proxy.random() ?? undefined;
         return await roblox(username, this.collection, proxy);
+    }
+
+    public async minecraft(username: string): Promise<IMinecraft> {
+        const proxy = this.proxy.random() ?? undefined;
+        return await minecraft(username, this.collection, proxy);
     }
 }

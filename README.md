@@ -43,6 +43,18 @@ Result:
 }
 ```
 
+## Supported Platforms
+Check username availability on both Roblox and Minecraft with simple calls:
+```ts
+// Check a Roblox username
+const robloxResult = await client.roblox("your_username");
+console.log(robloxResult);
+
+// Check a Minecraft username
+const minecraftResult = await client.minecraft("your_username");
+console.log(minecraftResult);
+```
+
 ## With Suggestions
 
 Want alternative username suggestions? Enable it in the config:
