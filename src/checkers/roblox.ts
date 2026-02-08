@@ -1,15 +1,7 @@
 import { fetch } from "undici";
 import { getProxyAgent, type IProxyConfig } from "../core/proxy.js";
 import { generateSuggestions } from "../utils/generate.js";
-
-export interface IRoblox {
-    platform: string;
-    username: string;
-    available: boolean | null;
-    message: string;
-    error?: string | null;
-    suggestions?: string | null;
-}
+import type { IResponse } from "../core/client.js";
 
 const status_codes: Record<number, { code: number; message: string }> = {
     0: { code: 0, message: 'Username is valid' },
@@ -69,7 +61,7 @@ export async function roblox(
     username: string,
     collection?: Map<string, any>,
     proxy?: IProxyConfig
-): Promise<IRoblox> {
+): Promise<IResponse> {
     try {
         if (username.length < 3 || username.length > 20) {
             return {

@@ -2,21 +2,13 @@ import { fetch } from "undici";
 import { getProxyAgent, type IProxyConfig } from "../core/proxy.js";
 import { generateSuggestions } from "../utils/generate.js";
 import { roblox } from "./roblox.js";
-
-export interface IMinecraft {
-    platform: string;
-    username: string;
-    available: boolean | null;
-    message: string;
-    error?: string | null;
-    suggestions?: string | null;
-}
+import type { IResponse } from "../core/client.js";
 
 export async function minecraft(
     username: string,
     collection?: Map<string, any>,
     proxy?: IProxyConfig
-): Promise<IMinecraft> {
+): Promise<IResponse> {
     const agent = getProxyAgent(proxy);
 
     const isValidUsername = (name: string) => /^[a-zA-Z0-9_]{3,16}$/.test(name);

@@ -44,7 +44,7 @@ Result:
 ```
 
 ## Supported Platforms
-Check username availability on both Roblox and Minecraft with simple calls:
+Check username availability on both Roblox, Minecraft and Github with simple calls:
 ```ts
 // Check a Roblox username
 const robloxResult = await client.roblox("your_username");
@@ -53,6 +53,10 @@ console.log(robloxResult);
 // Check a Minecraft username
 const minecraftResult = await client.minecraft("your_username");
 console.log(minecraftResult);
+
+// Check a Github username
+const githubResult = await client.github("your_username");
+console.log(githubResult);
 ```
 
 ## With Suggestions

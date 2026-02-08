@@ -1,6 +1,16 @@
-import { minecraft, type IMinecraft } from "../checkers/minecraft.js";
-import { roblox, type IRoblox } from "../checkers/roblox.js";
+import { github } from "../checkers/github.js";
+import { minecraft } from "../checkers/minecraft.js";
+import { roblox } from "../checkers/roblox.js";
 import { ProxyManager } from "./proxy.js";
+
+export interface IResponse {
+    platform: string;
+    username: string;
+    available: boolean | null;
+    message: string;
+    error?: string | null;
+    suggestions?: string | null;
+}
 
 interface IClientOptions {
     suggestions?: {
@@ -25,13 +35,18 @@ export class Client {
             this.collection.set("suggestions.verification", options.suggestions.verification);
     }
 
-    public async roblox(username: string): Promise<IRoblox> {
+    public async roblox(username: string): Promise<IResponse> {
         const proxy = this.proxy.random() ?? undefined;
         return await roblox(username, this.collection, proxy);
     }
 
-    public async minecraft(username: string): Promise<IMinecraft> {
+    public async minecraft(username: string): Promise<IResponse> {
         const proxy = this.proxy.random() ?? undefined;
         return await minecraft(username, this.collection, proxy);
+    }
+
+    public async github(username: string): Promise<IResponse> {
+        const proxy = this.proxy.random() ?? undefined;
+        return await github(username, this.collection, proxy);
     }
 }
