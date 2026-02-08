@@ -21,21 +21,48 @@ npm install @17secrets/usernames
 
 ## Quick Start
 
+### Base JavaScript CommonJs Without await
+```javascript
+const { Client } = require("@17secrets/usernames");
+
+const client = new Client();
+
+// Using `.then()` works fine in CJS
+client.github('pqpcara').then((info) => console.log(info));
+
+// The following would throw:
+// await client.github("pqpcara"); # SyntexError
+// SyntaxError: await is only valid in async functions and the top level bodies of modules
+```
+
+### Base JavaScript CommonJs With await
+```javascript
+const { Client } = require("@17secrets/usernames");
+
+(async () => {
+  const client = new Client();
+  // Now using await inside an async function works fine in CJS
+  const data = await client.github("pqpcara"); # Fixed SyntexError
+  console.log(data);
+})();
+```
+
+### Base TypeScript/JavaScript ESM
 ```typescript
 import { Client } from '@17secrets/usernames';
 
 const client = new Client();
 
 // Check a username
-const result = await client.roblox('your_username');
+const result = await client.roblox('pqpcara');
 console.log(result);
 ```
 
 Result:
 ```json
 {
-  "platform": "roblox",
-  "username": "your_username",
+  "platform": "github",
+  "username": "pqpcara",
   "available": true,
   "message": "Username is valid",
   "error": null,
@@ -55,7 +82,7 @@ const minecraftResult = await client.minecraft("your_username");
 console.log(minecraftResult);
 
 // Check a Github username
-const githubResult = await client.github("your_username");
+const githubResult = await client.github("pqpcara");
 console.log(githubResult);
 ```
 
@@ -124,7 +151,7 @@ client.proxy.proxies.clear();
 ## Full Response
 
 ```typescript
-interface IRoblox {
+interface IResponse {
   platform: string;        // "roblox"
   username: string;        // The username you checked
   available: boolean|null; // true/false or null if error

@@ -39,6 +39,7 @@
     },
     "homepage": "https://github.com/pqpcara/usernames-v2#readme",
     "devDependencies": {
+        "@types/node": "^25.2.2",
         "tsx": "^4.21.0",
         "typescript": "^5.9.3"
     },
