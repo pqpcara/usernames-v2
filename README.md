@@ -42,7 +42,7 @@ const { Client } = require("@17secrets/usernames");
 (async () => {
   const client = new Client();
   // Now using await inside an async function works fine in CJS
-  const data = await client.github("pqpcara"); # Fixed SyntexError
+  const data = await client.github("pqpcara"); // Fixed SyntexError
   console.log(data);
 })();
 ```
