@@ -1,4 +1,5 @@
 import { github } from "../checkers/github.js";
+import { instagram } from "../checkers/instagram.js";
 import { minecraft } from "../checkers/minecraft.js";
 import { roblox } from "../checkers/roblox.js";
 import { ProxyManager } from "./proxy.js";
@@ -48,5 +49,10 @@ export class Client {
     public async github(username: string): Promise<IResponse> {
         const proxy = this.proxy.random() ?? undefined;
         return await github(username, this.collection, proxy);
+    }
+
+    public async instagram(username: string): Promise<IResponse> {
+        const proxy = this.proxy.random() ?? undefined;
+        return await instagram(username, this.collection, proxy);
     }
 }

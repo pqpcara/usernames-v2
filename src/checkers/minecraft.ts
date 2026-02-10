@@ -44,7 +44,7 @@ export async function minecraft(
                 platform: "minecraft",
                 username,
                 available: false,
-                message: "Username unavailable",
+                message: "Username not appropriate for Minecraft",
                 error: null,
                 suggestions: null
             };
