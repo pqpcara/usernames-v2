@@ -1,13 +1,14 @@
 {
     "name": "@17secrets/usernames",
     "description": "Check username availability across all platforms. Simple, fast, and hassle-free.",
-    "version": "0.0.2",
+    "version": "0.0.3",
     "main": "dist/index.js",
     "types": "dist/index.d.ts",
     "type": "module",
     "exports": {
         ".": {
             "import": "./dist/index.js",
+            "require": "./dist/index.js",
             "types": "./dist/index.d.ts"
         }
     },

@@ -1,3 +1,4 @@
+import { discord } from "../checkers/discord.js";
 import { github } from "../checkers/github.js";
 import { instagram } from "../checkers/instagram.js";
 import { minecraft } from "../checkers/minecraft.js";
@@ -54,5 +55,10 @@ export class Client {
     public async instagram(username: string): Promise<IResponse> {
         const proxy = this.proxy.random() ?? undefined;
         return await instagram(username, this.collection, proxy);
+    }
+
+    public async discord(username: string): Promise<IResponse> {
+        const proxy = this.proxy.random() ?? undefined;
+        return await discord(username, this.collection, proxy);
     }
 }

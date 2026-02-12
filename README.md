@@ -7,7 +7,7 @@ Check username availability across platforms. Simple, fast and straightforward.
 
 ## What works
 
-- ✅ Check username availability on Roblox
+- ✅ Check username availability on Discord, Roblox, Minecraft, GitHub, and Instagram
 - ✅ Automatic alternative username suggestions
 - ✅ Proxy support (with authentication)
 - ✅ TypeScript with full types
@@ -71,8 +71,12 @@ Result:
 ```
 
 ## Supported Platforms
-Check username availability on both Roblox, Minecraft, Github and Instagram with simple calls:
+Check username availability on Discord, Roblox, Minecraft, GitHub, and Instagram with simple calls:
 ```ts
+// Check a Discord username
+const discordResult = await client.discord("your_username");
+console.log(discordResult);
+
 // Check a Roblox username
 const robloxResult = await client.roblox("your_username");
 console.log(robloxResult);
@@ -81,12 +85,12 @@ console.log(robloxResult);
 const minecraftResult = await client.minecraft("your_username");
 console.log(minecraftResult);
 
-// Check a Github username
+// Check a GitHub username
 const githubResult = await client.github("pqpcara");
 console.log(githubResult);
 
-// Check a Instagram username
-const instagramResult = await client.github("your_username");
+// Check an Instagram username
+const instagramResult = await client.instagram("your_username");
 console.log(instagramResult);
 ```
 
