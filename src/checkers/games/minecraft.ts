@@ -1,8 +1,7 @@
 import { fetch } from "undici";
-import { getProxyAgent, type IProxyConfig } from "../core/proxy.js";
-import { generateSuggestions } from "../utils/generate.js";
-import { roblox } from "./roblox.js";
-import type { IResponse } from "../core/client.js";
+import { getProxyAgent, type IProxyConfig } from "../../core/proxy.js";
+import { generateSuggestions } from "../../utils/generate.js";
+import type { IResponse } from "../../core/client.js";
 
 export async function minecraft(
     username: string,
@@ -37,19 +36,6 @@ export async function minecraft(
             };
         }
 
-        const robloxResult = await roblox(username, collection, proxy);
-
-        if (robloxResult.available === false && robloxResult.message.includes("not appropriate")) {
-            return {
-                platform: "minecraft",
-                username,
-                available: false,
-                message: "Username not appropriate for Minecraft",
-                error: null,
-                suggestions: null
-            };
-        }
-
         const exists = await check(username);
         const available = !exists;
 
@@ -67,11 +53,6 @@ export async function minecraft(
 
                 if (!verify) {
                     suggestions.push(candidate);
-                    continue;
-                }
-
-                const robloxCandidateResult = await roblox(candidate, collection, proxy);
-                if (robloxCandidateResult.available === false && robloxCandidateResult.message.includes("not appropriate")) {
                     continue;
                 }
 

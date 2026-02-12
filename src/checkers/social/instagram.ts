@@ -1,17 +1,15 @@
 import { fetch } from "undici";
-import { getProxyAgent, type IProxyConfig } from "../core/proxy.js";
-import { generateSuggestions } from "../utils/generate.js";
-import { roblox } from "./roblox.js";
-import type { IResponse } from "../core/client.js";
+import { getProxyAgent, type IProxyConfig } from "../../core/proxy.js";
+import { generateSuggestions } from "../../utils/generate.js";
+import type { IResponse } from "../../core/client.js";
 
 const isValidInstagramUsername = (name: string): boolean => /^[a-zA-Z0-9._]{1,30}$/.test(name);
 
 const check = async (name: string, proxy?: IProxyConfig): Promise<boolean> => {
   const agent = getProxyAgent(proxy);
-  const url = `https://i.instagram.com/api/v1/users/web_profile_info/?username=${encodeURIComponent(name)}`;
 
   try {
-    const res = await fetch(url, {
+    const res = await fetch(`https://i.instagram.com/api/v1/users/web_profile_info/?username=${encodeURIComponent(name)}`, {
       method: "GET",
       dispatcher: agent,
       headers: {
@@ -54,18 +52,6 @@ export async function instagram(
       };
     }
 
-    const robloxResult = await roblox(username, collection, proxy);
-    if (robloxResult.available === false && robloxResult.message.includes("not appropriate")) {
-      return {
-        platform: "instagram",
-        username,
-        available: false,
-        message: "Username not appropriate for Instagram",
-        error: null,
-        suggestions: null,
-      };
-    }
-
     const exists = await check(username, proxy);
     const available = !exists;
 
@@ -79,11 +65,6 @@ export async function instagram(
       for (const candidate of candidates) {
         if (suggestions.length >= amount) break;
         if (!isValidInstagramUsername(candidate)) continue;
-
-        const robloxCandidateResult = await roblox(candidate, collection, proxy);
-        if (robloxCandidateResult.available === false && robloxCandidateResult.message.includes("not appropriate")) {
-          continue;
-        }
 
         if (!verify) {
           suggestions.push(candidate);

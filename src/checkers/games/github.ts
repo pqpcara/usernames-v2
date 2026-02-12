@@ -1,6 +1,6 @@
 import { fetch } from "undici";
-import { getProxyAgent, type IProxyConfig } from "../core/proxy.js";
-import type { IResponse } from "../core/client.js";
+import { getProxyAgent, type IProxyConfig } from "../../core/proxy.js";
+import type { IResponse } from "../../core/client.js";
 
 const status_codes: Record<number, { code: number; message: string }> = {
   0: { code: 0, message: "Username is valid" },

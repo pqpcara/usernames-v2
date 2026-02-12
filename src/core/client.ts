@@ -1,8 +1,13 @@
-import { discord } from "../checkers/discord.js";
-import { github } from "../checkers/github.js";
-import { instagram } from "../checkers/instagram.js";
-import { minecraft } from "../checkers/minecraft.js";
-import { roblox } from "../checkers/roblox.js";
+import { discord } from "../checkers/social/discord.js";
+import { instagram } from "../checkers/social/instagram.js";
+import { tiktok } from "../checkers/social/tiktok.js";
+import { youtube } from "../checkers/social/youtube.js";
+import { soloto } from "../checkers/social/soloto.js";
+import { github } from "../checkers/games/github.js";
+import { minecraft } from "../checkers/games/minecraft.js";
+import { roblox } from "../checkers/games/roblox.js";
+import { xbox } from "../checkers/games/xbox.js";
+import { steam } from "../checkers/games/steam.js";
 import { ProxyManager } from "./proxy.js";
 
 export interface IResponse {
@@ -37,6 +42,7 @@ export class Client {
             this.collection.set("suggestions.verification", options.suggestions.verification);
     }
 
+    // Games
     public async roblox(username: string): Promise<IResponse> {
         const proxy = this.proxy.random() ?? undefined;
         return await roblox(username, this.collection, proxy);
@@ -52,6 +58,17 @@ export class Client {
         return await github(username, this.collection, proxy);
     }
 
+    public async xbox(username: string): Promise<IResponse> {
+        const proxy = this.proxy.random() ?? undefined;
+        return await xbox(username, this.collection, proxy);
+    }
+
+    public async steam(username: string): Promise<IResponse> {
+        const proxy = this.proxy.random() ?? undefined;
+        return await steam(username, this.collection, proxy);
+    }
+
+    // Social Media
     public async instagram(username: string): Promise<IResponse> {
         const proxy = this.proxy.random() ?? undefined;
         return await instagram(username, this.collection, proxy);
@@ -60,5 +77,20 @@ export class Client {
     public async discord(username: string): Promise<IResponse> {
         const proxy = this.proxy.random() ?? undefined;
         return await discord(username, this.collection, proxy);
+    }
+
+    public async tiktok(username: string): Promise<IResponse> {
+        const proxy = this.proxy.random() ?? undefined;
+        return await tiktok(username, this.collection, proxy);
+    }
+
+    public async youtube(username: string): Promise<IResponse> {
+        const proxy = this.proxy.random() ?? undefined;
+        return await youtube(username, this.collection, proxy);
+    }
+
+    public async soloto(username: string): Promise<IResponse> {
+        const proxy = this.proxy.random() ?? undefined;
+        return await soloto(username, this.collection, proxy);
     }
 }

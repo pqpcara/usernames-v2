@@ -1,17 +1,17 @@
 # @17secrets/usernames
 
-Check username availability across platforms. Simple, fast and straightforward.
+Check username availability across all platforms. Simple, fast and straightforward.
 
 [![npm version](https://img.shields.io/npm/v/@17secrets/usernames)](https://www.npmjs.com/package/@17secrets/usernames)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 
 ## What works
 
-- ✅ Check username availability on Discord, Roblox, Minecraft, GitHub, and Instagram
-- ✅ Automatic alternative username suggestions
-- ✅ Proxy support (with authentication)
-- ✅ TypeScript with full types
-- ✅ No heavy dependencies
+- ✅ Check username availability on 10+ platforms (Discord, Instagram, TikTok, YouTube, SoloTo, GitHub, Minecraft, Roblox, Xbox, Steam)
+- ✅ Automatic alternative username suggestions with optional verification
+- ✅ Proxy support with authentication and random selection
+- ✅ TypeScript with full type definitions
+- ✅ Lightweight with minimal dependencies (only undici)
 
 ## Installation
 
@@ -21,48 +21,56 @@ npm install @17secrets/usernames
 
 ## Quick Start
 
-### Base JavaScript CommonJs Without await
-```javascript
-const { Client } = require("@17secrets/usernames");
-
-const client = new Client();
-
-// Using `.then()` works fine in CJS
-client.github('pqpcara').then((info) => console.log(info));
-
-// The following would throw:
-// await client.github("pqpcara"); # SyntexError
-// SyntaxError: await is only valid in async functions and the top level bodies of modules
-```
-
-### Base JavaScript CommonJs With await
-```javascript
-const { Client } = require("@17secrets/usernames");
-
-(async () => {
-  const client = new Client();
-  // Now using await inside an async function works fine in CJS
-  const data = await client.github("pqpcara"); // Fixed SyntexError
-  console.log(data);
-})();
-```
-
-### Base TypeScript/JavaScript ESM
+### TypeScript/ESM
 ```typescript
 import { Client } from '@17secrets/usernames';
 
 const client = new Client();
 
 // Check a username
-const result = await client.roblox('pqpcara');
+const result = await client.discord('myusername');
 console.log(result);
 ```
 
-Result:
+### CommonJS with async/await
+```javascript
+const { Client } = require("@17secrets/usernames");
+
+(async () => {
+  const client = new Client();
+  const data = await client.github("pqpcara");
+  console.log(data);
+})();
+```
+
+### CommonJS with .then()
+```javascript
+const { Client } = require("@17secrets/usernames");
+
+const client = new Client();
+client.github('pqpcara').then((info) => console.log(info));
+```
+
+## Response Format
+
+All checker methods return a `Promise<IResponse>`:
+
+```typescript
+interface IResponse {
+  platform: string;           // Platform name (e.g., "discord")
+  username: string;           // Username checked
+  available: boolean | null;  // true/false or null if error
+  message: string;            // Descriptive status message
+  error?: string | null;      // Error details if any
+  suggestions?: string | null; // Comma-separated username suggestions
+}
+```
+
+Example response:
 ```json
 {
-  "platform": "github",
-  "username": "pqpcara",
+  "platform": "discord",
+  "username": "myusername",
   "available": true,
   "message": "Username is valid",
   "error": null,
@@ -71,109 +79,132 @@ Result:
 ```
 
 ## Supported Platforms
-Check username availability on Discord, Roblox, Minecraft, GitHub, and Instagram with simple calls:
-```ts
-// Check a Discord username
+
+### Social Media
+- **Discord** - Real-time availability checking via Discord API
+- **Instagram** - Checks via Instagram Web API
+- **TikTok** - Validates against TikTok's username format and availability
+- **YouTube** - Checks YouTube channel availability
+- **SoloTo** - Checks SoloTo platform availability
+
+### Gaming Platforms
+- **GitHub** - Checks GitHub user profiles with HTML parsing
+- **Minecraft** - Checks Minecraft profiles via Mojang API
+- **Roblox** - Validates Roblox usernames with CSRF token handling
+- **Xbox** - Checks Xbox gamertag availability
+- **Steam** - Checks Steam profile availability
+
+## Usage Examples
+
+### Check Single Platform
+```typescript
+const client = new Client();
+
+// Discord
 const discordResult = await client.discord("your_username");
 console.log(discordResult);
 
-// Check a Roblox username
+// Roblox
 const robloxResult = await client.roblox("your_username");
 console.log(robloxResult);
 
-// Check a Minecraft username
+// Minecraft
 const minecraftResult = await client.minecraft("your_username");
 console.log(minecraftResult);
 
-// Check a GitHub username
+// GitHub
 const githubResult = await client.github("pqpcara");
 console.log(githubResult);
 
-// Check an Instagram username
+// Instagram
 const instagramResult = await client.instagram("your_username");
 console.log(instagramResult);
+
+// TikTok
+const tiktokResult = await client.tiktok("your_username");
+console.log(tiktokResult);
+
+// YouTube
+const youtubeResult = await client.youtube("your_username");
+console.log(youtubeResult);
+
+// Xbox
+const xboxResult = await client.xbox("your_username");
+console.log(xboxResult);
+
+// Steam
+const steamResult = await client.steam("your_username");
+console.log(steamResult);
+
+// SoloTo
+const solotoResult = await client.soloto("your_username");
+console.log(solotoResult);
 ```
 
-## With Suggestions
+### With Username Suggestions
 
-Want alternative username suggestions? Enable it in the config:
+Enable automatic username suggestions when a username is taken:
 
 ```typescript
 const client = new Client({
   suggestions: {
     enabled: true,
     amount: 5,
-    verification: true
+    verification: true  // Verify suggestions are actually available
   }
 });
 
-const result = await client.roblox('unavailable_username');
-console.log(result.suggestions); // "unavailable_username1, unavailable_username2, ..."
+const result = await client.discord('taken_username');
+console.log(result.suggestions); // "taken_username1, taken_username2, ..."
 ```
 
 **Options:**
 - `enabled` - Enable suggestions (default: false)
-- `amount` - How many suggestions to generate (default: 1)
-- `verification` - Verify if suggestions are available (default: false)
+- `amount` - Number of suggestions to generate (default: 1)
+- `verification` - Verify if suggestions are available (default: false, slower but accurate)
 
-## With Proxies
+### With Proxies
 
-Want to use proxies? Simple:
+Use proxies for all requests with automatic random selection:
 
 ```typescript
 const client = new Client();
 
-// Add a proxy
-client.proxy.proxies.add({
-  host: 'proxy.example.com',
-  port: 8080,
-  username: 'user',
-  password: 'pass'
-});
+// Add proxies
+client.proxy.proxies
+  .add({ host: 'proxy1.com', port: 8080 })
+  .add({ host: 'proxy2.com', port: 8081, username: 'user', password: 'pass' });
 
-// Enable proxies
+// Enable proxy usage
 client.proxy.enabled(true);
 
-// Now requests use a random proxy
+// Now requests use a random proxy from the list
 const result = await client.roblox('username');
 ```
 
-**Manage proxies:**
+**Proxy Management:**
 
 ```typescript
-// Add multiple
+// Add multiple proxies
 client.proxy.proxies
   .add({ host: 'proxy1.com', port: 8080 })
   .add({ host: 'proxy2.com', port: 8081 });
 
-// See how many
+// Check proxy count
 console.log(client.proxy.proxies.size); // 2
 
-// List all
+// List all proxies
 console.log(client.proxy.proxies.list());
 
-// Clear all
+// Clear all proxies
 client.proxy.proxies.clear();
+
+// Check if proxies are enabled
+console.log(client.proxy.enabled()); // true/false
+
+// Toggle proxy usage
+client.proxy.enabled(false);
 ```
-
-## Full Response
-
-```typescript
-interface IResponse {
-  platform: string;        // "roblox"
-  username: string;        // The username you checked
-  available: boolean|null; // true/false or null if error
-  message: string;         // Descriptive message
-  error?: string|null;     // Error if any
-  suggestions?: string;    // Suggestions separated by comma
-}
-```
-
-**Possible messages:**
-- `Username is valid` - Username available
-- `Username is already in use` - Already taken
-- `Username not appropriate for Roblox` - Not allowed
-- `Usernames can be 3 to 20 characters long` - Invalid length
 
 ## Complete Example
 
@@ -214,5 +245,5 @@ MIT © 2026
 
 ## Links
 
-- [GitHub](https://github.com/pqpcara/usernames-v2projeto)
+- [GitHub](https://github.com/pqpcara/usernames-v2)
 - [NPM](https://www.npmjs.com/package/@17secrets/usernames)
